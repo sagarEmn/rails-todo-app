@@ -1,5 +1,5 @@
 class TodosController < ApplicationController
-  before_action :set_todo, only: [:show, :edit, :update, :destroy]
+  before_action :set_todo, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @todos = Todo.all.order(created_at: :desc)
@@ -15,9 +15,9 @@ class TodosController < ApplicationController
 
   def create
     @todo = Todo.new(todo_params)
-    
+
     if @todo.save
-      redirect_to @todo, notice: 'Todo was successfully created.'
+      redirect_to @todo, notice: "Todo was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class TodosController < ApplicationController
 
   def update
     if @todo.update(todo_params)
-      redirect_to @todo, notice: 'Todo was successfully updated.'
+      redirect_to @todo, notice: "Todo was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -37,7 +37,7 @@ class TodosController < ApplicationController
 
   def destroy
     @todo.destroy
-    redirect_to todos_url, notice: 'Todo was successfully deleted.'
+    redirect_to todos_url, notice: "Todo was successfully deleted."
   end
 
   private
