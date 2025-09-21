@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-  get "todos/index"
-  get "todos/show"
-  get "todos/new"
-  get "todos/create"
-  get "todos/edit"
-  get "todos/update"
-  get "todos/destroy"
+  # Comment out the get lines:
+  # get "todos/index"
+  # get "todos/show"
+  # get "todos/new"
+  # get "todos/create"
+  # get "todos/edit"
+  # get "todos/update"
+  # get "todos/destroy"
   # Set welcome page as root
   root "welcome#index"
 
