@@ -1,2 +1,29 @@
-<h1>Todos#show</h1>
-<p>Find me in app/views/todos/show.html.erb</p>
+<div class="todo-detail">
+  <div class="todo-header">
+    <h1><%= @todo.title %></h1>
+    <span class="status-badge <%= @todo.completed ? 'completed' : 'pending' %>">
+      <%= @todo.completed ? '✓ Completed' : '○ Pending' %>
+    </span>
+  </div>
+  
+  <div class="todo-body">
+    <% if @todo.description.present? %>
+      <div class="description">
+        <h3>Description:</h3>
+        <p><%= simple_format(@todo.description) %></p>
+      </div>
+    <% end %>
+    
+    <div class="todo-meta">
+      <p><strong>Created:</strong> <%= @todo.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      <p><strong>Last Updated:</strong> <%= @todo.updated_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+    </div>
+  </div>
+  
+  <div class="todo-actions">
+    <%= link_to 'Edit', edit_todo_path(@todo), class: "btn btn-warning" %>
+    <%= button_to 'Delete', @todo, method: :delete, 
+        confirm: "Are you sure?", class: "btn btn-danger" %>
+    <%= link_to 'Back to Todos', todos_path, class: "btn btn-secondary" %>
+  </div>
+</div>
