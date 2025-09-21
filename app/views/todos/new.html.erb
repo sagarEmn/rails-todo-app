@@ -1,2 +1,7 @@
-<h1>Todos#new</h1>
-<p>Find me in app/views/todos/new.html.erb</p>
+<div class="form-container">
+  <h1>New Todo</h1>
+  
+  <%= render 'form', todo: @todo %>
+  
+  <%= link_to 'Back to Todos', todos_path, class: "btn btn-secondary" %>
+</div>
