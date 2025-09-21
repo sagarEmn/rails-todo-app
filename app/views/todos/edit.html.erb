@@ -1,2 +1,10 @@
-<h1>Todos#edit</h1>
-<p>Find me in app/views/todos/edit.html.erb</p>
+<div class="form-container">
+  <h1>Edit Todo</h1>
+  
+  <%= render 'form', todo: @todo %>
+  
+  <div class="form-actions">
+    <%= link_to 'Show', @todo, class: "btn btn-secondary" %>
+    <%= link_to 'Back to Todos', todos_path, class: "btn btn-secondary" %>
+  </div>
+</div>
