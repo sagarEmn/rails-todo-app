@@ -1,11 +1,119 @@
 <% content_for :title, "Welcome" %>
 
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+<div class="flex flex-col items-center min-h-screen bg-gray-100 p-6">
   <h1 class="text-4xl font-bold text-gray-800">Welcome to Rails Todo App</h1>
-  <p class="mt-2 text-lg text-gray-600">Manage your tasks efficiently with our simple todo application.</p>
+  <p class="mt-2 text-lg text-gray-600 mb-6">Manage your tasks efficiently with our simple todo application.</p>
+  
+  <!-- Search Form -->
+  <div class="w-full max-w-4xl">
+    <div class="bg-white p-4 rounded-lg shadow-md">
+      <%= form_with url: todos_path, method: :get, local: true, class: "flex items-center" do |form| %>
+        <%= form.text_field :query, placeholder: "Search todos...", class: "flex-1 p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <%= form.submit "Search", class: "px-4 py-2 bg-blue-500 text-white font-medium rounded-r-lg hover:bg-blue-600" %>
+      <% end %>
+    </div>
+  </div>
 
-  <div class="mt-8">
-    <%= link_to "Get Started", "#", class: "px-6 py-3 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600" %>
-    <%= link_to "Learn More", "#", class: "px-6 py-3 ml-4 font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300" %>
+  <div class="mt-8 flex flex-col items-center w-full max-w-4xl">
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <!-- Quick Add Todo Form -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Quick Add Todo</h2>
+        <%= render 'todos/quick_form' %>
+      </div>
+      
+      <!-- Todo Statistics -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Todo Stats</h2>
+        <% total = Todo.count %>
+        <% completed = Todo.completed.count %>
+        <% pending = Todo.pending.count %>
+        
+        <div class="stats grid grid-cols-2 gap-4">
+          <div class="stat p-4 bg-blue-50 rounded-lg">
+            <div class="text-3xl font-bold text-blue-600"><%= total %></div>
+            <div class="text-sm text-gray-500">Total Todos</div>
+          </div>
+          <div class="stat p-4 bg-green-50 rounded-lg">
+            <div class="text-3xl font-bold text-green-600"><%= completed %></div>
+            <div class="text-sm text-gray-500">Completed</div>
+          </div>
+          <div class="stat p-4 bg-yellow-50 rounded-lg">
+            <div class="text-3xl font-bold text-yellow-600"><%= pending %></div>
+            <div class="text-sm text-gray-500">Pending</div>
+          </div>
+          <div class="stat p-4 bg-purple-50 rounded-lg">
+            <div class="text-3xl font-bold text-purple-600"><%= ((completed.to_f / total) * 100).round rescue 0 %>%</div>
+            <div class="text-sm text-gray-500">Completion Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex justify-between w-full mb-4">
+      <h2 class="text-2xl font-semibold text-gray-700">Recent Todos</h2>
+      <%= link_to "View All", todos_path, class: "px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600" %>
+    </div>
+    
+    <div class="w-full bg-white rounded-lg shadow-md p-6">
+      <% if @todos.any? %>
+        <div class="todo-list">
+          <% @todos.each do |todo| %>
+            <div class="todo-item flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-gray-50">
+              <div class="flex items-center">
+                <span class="<%= todo.completed ? 'text-green-600' : 'text-yellow-600' %> text-xl mr-3">
+                  <%= todo.completed ? '✓' : '○' %>
+                </span>
+                <div>
+                  <h3 class="font-medium"><%= link_to todo.title, todo_path(todo), class: "hover:text-blue-600" %></h3>
+                  <p class="text-sm text-gray-500"><%= truncate(todo.description, length: 50) %></p>
+                </div>
+              </div>
+              <div class="flex space-x-2">
+                <%= link_to "View", todo_path(todo), class: "px-3 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200" %>
+                <%= link_to "Edit", edit_todo_path(todo), class: "px-3 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-md hover:bg-yellow-200" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="mt-4 text-center">
+          <%= link_to "View All Todos", todos_path, class: "text-blue-600 hover:text-blue-800 font-medium" %>
+        </div>
+      <% else %>
+        <div class="empty-state py-10 text-center">
+          <p class="text-lg text-gray-600">You don't have any todos yet.</p>
+          <p class="text-gray-500 mt-1">Create your first todo to get started!</p>
+          <%= link_to "Create Your First Todo", new_todo_path, class: "mt-4 inline-block px-6 py-3 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600" %>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="mt-8 grid grid-cols-3 gap-4 w-full max-w-3xl">
+      <%= link_to todos_path, class: "flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all" do %>
+        <svg class="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+        <span class="mt-2 font-medium">All Todos</span>
+      <% end %>
+      
+      <%= link_to new_todo_path, class: "flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all" do %>
+        <svg class="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        <span class="mt-2 font-medium">Create New</span>
+      <% end %>
+      
+      <div class="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md">
+        <svg class="w-12 h-12 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+        <span class="mt-2 font-medium">Quick Actions</span>
+        <div class="mt-2 flex space-x-2">
+          <%= link_to "Today's Tasks", todos_path, class: "text-xs text-blue-600 hover:underline" %>
+          <span class="text-gray-300">|</span>
+          <%= link_to "Pending", todos_path(filter: 'pending'), class: "text-xs text-blue-600 hover:underline" %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

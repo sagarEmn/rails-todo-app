@@ -2,7 +2,22 @@ class TodosController < ApplicationController
   before_action :set_todo, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @todos = Todo.all.order(created_at: :desc)
+    @todos = Todo.all
+    
+    # Apply search filter if query parameter is present
+    if params[:query].present?
+      @todos = @todos.where("title LIKE ? OR description LIKE ?", "%#{params[:query]}%", "%#{params[:query]}%")
+    end
+    
+    # Apply status filter if specified
+    if params[:filter] == 'pending'
+      @todos = @todos.pending
+    elsif params[:filter] == 'completed'
+      @todos = @todos.completed
+    end
+    
+    # Apply final ordering
+    @todos = @todos.order(created_at: :desc)
   end
 
   def show

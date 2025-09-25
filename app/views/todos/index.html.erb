@@ -1,7 +1,21 @@
 <div class="todos-container">
   <div class="header-section">
-    <h1>My Todo List</h1>
-    <%= link_to "New Todo", new_todo_path, class: "btn btn-primary" %>
+    <div>
+      <h1>My Todo List</h1>
+      <% if params[:query].present? %>
+        <p class="search-info">Search results for: "<%= params[:query] %>"</p>
+      <% elsif params[:filter] == 'pending' %>
+        <p class="filter-info">Showing: Pending tasks</p>
+      <% elsif params[:filter] == 'completed' %>
+        <p class="filter-info">Showing: Completed tasks</p>
+      <% end %>
+    </div>
+    <div class="header-actions">
+      <%= link_to "New Todo", new_todo_path, class: "btn btn-primary" %>
+      <% if params[:query].present? || params[:filter].present? %>
+        <%= link_to "Clear Filter", todos_path, class: "btn btn-secondary ml-2" %>
+      <% end %>
+    </div>
   </div>
 
   <div class="todos-grid">

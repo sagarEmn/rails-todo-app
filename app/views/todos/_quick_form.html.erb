@@ -1,0 +1,22 @@
+<%= form_with(model: Todo.new, local: true, class: "quick-todo-form") do |form| %>
+  <div class="flex flex-col space-y-3">
+    <div class="form-group">
+      <%= form.label :title, "Todo Title", class: "form-label text-gray-700 font-medium" %>
+      <%= form.text_field :title, class: "form-control w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500", placeholder: "Enter a task title" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :description, "Description (Optional)", class: "form-label text-gray-700 font-medium" %>
+      <%= form.text_area :description, rows: 3, class: "form-control w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500", placeholder: "Enter a brief description" %>
+    </div>
+
+    <div class="form-group flex items-center">
+      <%= form.check_box :completed, class: "form-checkbox h-5 w-5 text-blue-600" %>
+      <%= form.label :completed, "Mark as completed", class: "ml-2 text-gray-700" %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "Add Todo", class: "w-full py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600" %>
+    </div>
+  </div>
+<% end %>
