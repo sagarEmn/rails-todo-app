@@ -1,0 +1,25 @@
+{
+    "name": "rails-todo-app",
+    "private": true,
+    "dependencies": {
+        "@babel/core": "^7.23.0",
+        "@babel/preset-env": "^7.23.0",
+        "@babel/preset-react": "^7.22.15",
+        "axios": "^1.5.1",
+        "babel-loader": "^9.1.3",
+        "moment": "^2.29.4",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.16.0"
+    },
+    "scripts": {
+        "build": "webpack --config webpack.config.js",
+        "watch": "webpack --config webpack.config.js --watch"
+    },
+    "devDependencies": {
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4",
+        "css-loader": "^6.8.1",
+        "style-loader": "^3.3.3"
+    }
+}

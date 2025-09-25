@@ -7,6 +7,11 @@ class TodosController < ApplicationController
 
   def show
     # @todo is set by before_action
+    respond_to do |format|
+      format.html
+      format.json { render json: @todo }
+      format.react { render :react_show }
+    end
   end
 
   def new

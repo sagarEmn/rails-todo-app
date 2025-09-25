@@ -15,6 +15,14 @@ Rails.application.routes.draw do
 
   # RESTful routes for todos
   resources :todos
+  
+  # Route for React version of the show page
+  get 'todos/:id/react', to: 'todos#show', defaults: { format: 'react' }
+  
+  # API endpoints
+  namespace :api do
+    resources :todos
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
